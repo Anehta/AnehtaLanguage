@@ -1,0 +1,267 @@
+type Token struct {
+	Value string
+	Type string	
+}
+
+var tokenlist = list.New()
+var back_token_list = list.New()
+func InitToken(){
+	tokenlist.PushBack(&Token{"Int","WORD"})
+	tokenlist.PushBack(&Token{"fuck","WORD"})
+	tokenlist.PushBack(&Token{"=","ASSIGMENT"})
+	tokenlist.PushBack(&Token{"(","LP"})
+	tokenlist.PushBack(&Token{"5","NUM"})
+	tokenlist.PushBack(&Token{")","RP"})
+	tokenlist.PushBack(&Token{"\n","EOF"})
+}
+
+func InitToken_IF(){
+	tokenlist.PushBack(&Token{"if","IF"})
+	tokenlist.PushBack(&Token{"(","LP"})
+	tokenlist.PushBack(&Token{"1","NUM"})
+	tokenlist.PushBack(&Token{"<","LT"})
+	tokenlist.PushBack(&Token{"3","NUM"})
+	tokenlist.PushBack(&Token{")","RP"})
+	tokenlist.PushBack(&Token{"else","ELSE"})
+}
+
+func PrintToken(){
+	for i:=tokenlist.Front();i!=nil;i=tokenlist.Front(){
+		fmt.Printf("%s",i.Value.(*Token).Value)
+		tokenlist.Remove(i)
+	}
+	fmt.Printf("\n")
+}
+
+var count = 0
+
+func GetToken() *Token{
+	tmp := tokenlist.Front()
+	if tmp != nil{
+		back_token_list.PushBack(tmp.Value.(*Token))
+		count++
+		defer tokenlist.Remove(tmp)
+		return tmp.Value.(*Token)
+	}else{
+		return nil
+	}
+
+}
+
+func BackToken() *Token {
+	tmp := back_token_list.Back().Value.(*Token)
+	tokenlist.PushFront(tmp)
+	return tmp
+}
+
+func Parse_Block(){
+	
+}
+
+func Parse_Judge_Expression(){
+	tok := GetToken()
+	
+	if tok.Type == "IF"{
+		Parse_Bool_Expression()
+		Parse_Block()
+		Parse_Judge_Else_Expression()
+	}else{
+		fmt.Println("error:unexpected '",tok.Value,`'expection 'if'`)
+	}
+}
+
+func Parse_Judge_Else_Expression(){
+	tok := GetToken()
+	
+	if tok.Type == "ELSE"{
+		Parse_Block()
+	}else if tok.Type == "ELSEIF"{
+		Parse_Bool_Expression()
+		Parse_Block()
+		Parse_Judge_Else_Expression()
+	}
+	
+	BackToken() //支持空集
+} 
+
+func Parse_Bool_Expression(){
+	tok := GetToken()
+	
+	if tok.Type == "LP"{
+		Parse_Expression()
+		tok = GetToken()
+		switch tok.Type {
+			case "ASSIGMENT" :
+				tok = GetToken()
+				if tok.Type == "ASSIGMENT"{
+					Parse_Expression()
+				}else{
+					fmt.Println("error:unexpected '",tok.Value,`'expection '='`)
+				}
+			break
+			
+			case "NE" :
+				Parse_Expression()
+			break
+			
+			case "LT" :
+				Parse_Expression()			
+			break
+			
+			case "GT" :
+				Parse_Expression()
+			break
+			
+			case "LT&EQ":
+				Parse_Expression()
+			break
+			
+			case "RT&EQ":
+				Parse_Expression()
+			break
+				
+			default :
+				fmt.Println("error:unexpected '",tok.Value,`'expection '>' or '<' or '=' or '!=`)
+				os.Exit(1)
+			break
+		}
+		
+		tok = GetToken()
+		if tok == nil{
+			fmt.Println(`error:expection ')'`)
+			os.Exit(1)
+		}
+		if tok.Type == "RP"{
+			return
+		}else{
+			fmt.Println(`error:expression ')'`)
+			os.Exit(1)
+		}
+	}else{
+		fmt.Println(`error: expression '('`)
+		os.Exit(1)
+	}
+	
+
+	
+
+}
+
+// Parse_Define_Var -> WORD WORD ASSIGMENT PARSE_EXPRESSION EOF |
+//                     WORD WORD EOF
+func Parse_Define_Var(){
+	tok := GetToken()
+	if tok.Type == "WORD"{
+		tok = GetToken()
+		if tok.Type == "WORD"{
+			tok = GetToken()
+			if tok.Type == "EOF"{
+				return
+			}else if tok.Type == "ASSIGMENT"{
+				Parse_Expression() //表达式计算
+				tok = GetToken()
+				if tok == nil{
+					fmt.Println("error:",`expection 'EOF'(\n)`)
+					os.Exit(1)
+				}
+				if tok.Type == "EOF"{
+					return
+				}
+			}else{
+				fmt.Println("error:unexpected '",tok.Value,`'expection 'ASSIGMENT' or 'EOF'`)
+				os.Exit(1)
+			}
+		}else{
+			fmt.Println("error:unexpected '",tok.Value,`'expecting ' Var-Name'`)
+			os.Exit(1)
+		}
+	}else{
+		fmt.Println("error:unexpected '",tok.Value,`'expecting 'Basic-Type or Custom-Type'`)
+		os.Exit(1)
+	}
+}
+
+//单词符号(包括函数符号)
+func Parse_Word(){
+	GetToken()
+}
+
+//单行表达式
+func Parse_Only_Line_Expression(){
+	Parse_Expression()
+	tok := GetToken()
+	if tok.Type == "EOF"{
+		return
+	}else{
+		fmt.Println("error:unexpected '",tok.Value,`'expecting ';' or '\n' or '}'`)
+	}
+}
+
+//算术表达式
+func Parse_Expression(){
+	Parse_Expression_Term()
+	Parse_Expression_Dot()
+}
+
+func Parse_Expression_Dot(){
+	tmp := GetToken()
+	if tmp == nil{
+		return
+	}
+	if tmp.Type == "ADD" || tmp.Type == "SUB"{
+		Parse_Expression_Term()
+		Parse_Expression_Dot()
+	}else{
+		BackToken() //回退
+	}
+}
+
+func Parse_Expression_Term(){
+	Parse_Expression_Factor()
+	Parse_Expression_Term_Dot()
+}
+
+func Parse_Expression_Term_Dot(){
+	tmp := GetToken()
+	if tmp == nil{
+		return
+	}
+	if tmp.Type == "MUL" || tmp.Type == "DIV"{
+		Parse_Expression_Factor()
+		Parse_Expression_Term_Dot()
+	}else{
+		BackToken()	
+	}
+}
+
+func Parse_Expression_Factor(){
+	tmp := GetToken()
+	if tmp == nil{
+		return
+	}
+	if tmp.Type == "NUM"{
+		return 
+	}else{
+		if tmp.Type == "LP"{
+			Parse_Expression()
+			tmp := GetToken()
+			
+			if tmp == nil{
+				fmt.Println(`error:missing 'RP'`)
+				os.Exit(1)
+			}
+			
+			if tmp.Type == "RP"{
+				return
+			}else{
+				fmt.Println(`error:missing 'RP'`)
+				os.Exit(1)
+			}
+		}else{
+			fmt.Println(`unexpected'`,tmp.Type,`'expecting Number or Var`)
+			os.Exit(1)
+			return
+		}
+	}
+}
+
