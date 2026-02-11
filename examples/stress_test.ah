@@ -1,0 +1,426 @@
+// ═══════════════════════════════════════════════════════════
+//  AnehtaLanguage Ultimate Stress Test
+//  Features: ~random, input(), recursion, nested loops,
+//            power^, modulo%, elseif chains, break/continue
+// ═══════════════════════════════════════════════════════════
+
+
+// ┌─────────────────────────────────────────────────────────┐
+// │  CORE MATH                                              │
+// └─────────────────────────────────────────────────────────┘
+print("value")
+func abs(n: int) -> int {
+    if (n < 0) {
+        return 0 - n
+    }
+    return n
+}
+
+func min(a: int, b: int) -> int {
+    if (a < b) {
+        return a
+    }
+    return b
+}
+
+func max(a: int, b: int) -> int {
+    if (a > b) {
+        return a
+    }
+    return b
+}
+
+func clamp(val: int, lo: int, hi: int) -> int {
+    return max(lo, min(val, hi))
+}
+
+
+// ┌─────────────────────────────────────────────────────────┐
+// │  RECURSION                                              │
+// └─────────────────────────────────────────────────────────┘
+
+func fib(n: int) -> int {
+    if (n <= 0) {
+        return 0
+    }
+    if (n <= 2) {
+        return 1
+    }
+    return fib(n - 1) + fib(n - 2)
+}
+
+func factorial(n: int) -> int {
+    var result = 1
+    for (var i = 2; i <= n; i = i + 1) {
+        result = result * i
+    }
+    return result
+}
+
+func gcd(a: int, b: int) -> int {
+    if (b == 0) {
+        return a
+    }
+    return gcd(b, a % b)
+}
+
+func lcm(a: int, b: int) -> int {
+    return a / gcd(a, b) * b
+}
+
+
+// ┌─────────────────────────────────────────────────────────┐
+// │  NUMBER THEORY                                          │
+// └─────────────────────────────────────────────────────────┘
+
+func is_prime(n: int) -> int {
+    if (n <= 1) {
+        return 0
+    }
+    if (n <= 3) {
+        return 1
+    }
+    if (n % 2 == 0) {
+        return 0
+    }
+    for (var i = 3; i * i <= n; i = i + 2) {
+        if (n % i == 0) {
+            return 0
+        }
+    }
+    return 1
+}
+
+func count_primes(limit: int) -> int {
+    var count = 0
+    for (var i = 2; i <= limit; i = i + 1) {
+        if (is_prime(i) == 1) {
+            count = count + 1
+        }
+    }
+    return count
+}
+
+func next_prime(n: int) -> int {
+    var candidate = n + 1
+    for (;;) {
+        if (is_prime(candidate) == 1) {
+            break
+        }
+        candidate = candidate + 1
+    }
+    return candidate
+}
+
+func collatz_steps(n: int) -> int {
+    var steps = 0
+    for (; n != 1; steps = steps + 1) {
+        if (n % 2 == 0) {
+            n = n / 2
+        } else {
+            n = n * 3 + 1
+        }
+    }
+    return steps
+}
+
+
+// ┌─────────────────────────────────────────────────────────┐
+// │  DIGIT MANIPULATION                                     │
+// └─────────────────────────────────────────────────────────┘
+
+func digit_sum(n: int) -> int {
+    var sum = 0
+    for (; n > 0; n = n / 10) {
+        sum = sum + n % 10
+    }
+    return sum
+}
+
+func digital_root(n: int) -> int {
+    for (; n >= 10;) {
+        n = digit_sum(n)
+    }
+    return n
+}
+
+func reverse_num(n: int) -> int {
+    var reversed = 0
+    for (; n > 0; n = n / 10) {
+        reversed = reversed * 10 + n % 10
+    }
+    return reversed
+}
+
+func is_palindrome(n: int) -> int {
+    if (n == reverse_num(n)) {
+        return 1
+    }
+    return 0
+}
+
+
+// ┌─────────────────────────────────────────────────────────┐
+// │  ~ RANDOM OPERATOR SHOWCASE ~                           │
+// │  The killer feature of AnehtaLanguage                   │
+// └─────────────────────────────────────────────────────────┘
+
+// Roll a single die: 1~sides
+func roll(sides: int) -> int {
+    return 1 ~ sides
+}
+
+// Roll multiple dice and sum them: NdS notation
+func roll_dice(count: int, sides: int) -> int {
+    var total = 0
+    for (var i = 0; i < count; i = i + 1) {
+        total = total + 1 ~ sides
+    }
+    return total
+}
+
+// RPG damage calculator: base damage +/- random spread
+func calc_damage(base: int, spread: int) -> int {
+    var raw = base + (0 - spread) ~ spread
+    if (raw < 1) {
+        raw = 1
+    }
+    return raw
+}
+
+// Monte Carlo: estimate probability that 2d6 >= threshold
+// Returns percentage (0-100)
+func monte_carlo_2d6(threshold: int, trials: int) -> int {
+    var hits = 0
+    for (var i = 0; i < trials; i = i + 1) {
+        var roll_val = (1 ~ 6) + (1 ~ 6)
+        if (roll_val >= threshold) {
+            hits = hits + 1
+        }
+    }
+    return hits * 100 / trials
+}
+
+// Random walk: start at 0, step +1 or -1 randomly, count steps until |pos| >= target
+func random_walk(target: int) -> int {
+    var pos = 0
+    var steps = 0
+    for (; abs(pos) < target; steps = steps + 1) {
+        var coin = 1 ~ 2
+        if (coin == 1) {
+            pos = pos + 1
+        } else {
+            pos = pos - 1
+        }
+    }
+    return steps
+}
+
+// Generate a random number guaranteed to be prime (brute force)
+func random_prime(lo: int, hi: int) -> int {
+    for (;;) {
+        var candidate = lo ~ hi
+        if (is_prime(candidate) == 1) {
+            return candidate
+        }
+    }
+    return 0
+}
+
+// Simulate combat: two fighters with HP, each deals random damage
+// Returns 1 if fighter 1 wins, 2 if fighter 2 wins
+func duel(hp1: int, min1: int, max1: int, hp2: int, min2: int, max2: int) -> int {
+    for (; hp1 > 0 && hp2 > 0;) {
+        // Fighter 1 attacks fighter 2
+        var dmg1 = min1 ~ max1
+        hp2 = hp2 - dmg1
+
+        // Fighter 2 attacks fighter 1 (if still alive)
+        if (hp2 > 0) {
+            var dmg2 = min2 ~ max2
+            hp1 = hp1 - dmg2
+        }
+    }
+    if (hp1 > 0) {
+        return 1
+    }
+    return 2
+}
+
+// Lottery: generate N random numbers 1~range, count how many match a target
+func lottery_hits(target: int, draws: int, num_range: int) -> int {
+    var hits = 0
+    for (var i = 0; i < draws; i = i + 1) {
+        if (1 ~ num_range == target) {
+            hits = hits + 1
+        }
+    }
+    return hits
+}
+
+// Shuffle score: random weighted sum with power operator
+func chaos_score(rounds: int) -> int {
+    var score = 0
+    for (var i = 0; i < rounds; i = i + 1) {
+        var base = 1 ~ 10
+        var power_val = 1 ~ 3
+        score = score + base ^ power_val
+    }
+    return score
+}
+
+
+// ┌─────────────────────────────────────────────────────────┐
+// │  COMPLEX CONTROL FLOW                                   │
+// └─────────────────────────────────────────────────────────┘
+
+func classify(n: int) -> int {
+    if (n <= 0) {
+        return 0 - 1
+    } elseif (is_prime(n) == 1) {
+        return 1
+    } elseif (n % 2 == 0) {
+        if (n % 4 == 0) {
+            return 2
+        } else {
+            return 3
+        }
+    } else {
+        return 4
+    }
+}
+
+func euler1(limit: int) -> int {
+    var sum = 0
+    for (var i = 1; i < limit; i = i + 1) {
+        if (i % 3 == 0 || i % 5 == 0) {
+            sum = sum + i
+        }
+    }
+    return sum
+}
+
+func fib_sum(n: int) -> int {
+    var total = 0
+    for (var i = 1; i <= n; i = i + 1) {
+        total = total + fib(i)
+    }
+    return total
+}
+
+func tower_of_power(base: int, levels: int) -> int {
+    var result = 1
+    for (var i = 0; i < levels; i = i + 1) {
+        result = base ^ result
+    }
+    return result
+}
+
+
+// ═══════════════════════════════════════════════════════════
+//  MAIN — Part 1: Deterministic tests (auto-verify)
+// ═══════════════════════════════════════════════════════════
+
+// Fibonacci
+print(fib(1))           // -> 1
+print(fib(10))          // -> 55
+print(fib(20))          // -> 6765
+
+// Factorial
+print(factorial(5))     // -> 120
+print(factorial(12))    // -> 479001600
+
+// GCD / LCM
+print(gcd(48, 18))      // -> 6
+print(lcm(12, 18))      // -> 36
+
+// Primes
+print(is_prime(97))     // -> 1
+print(count_primes(100)) // -> 25
+print(next_prime(100))  // -> 101
+
+// Collatz
+print(collatz_steps(27)) // -> 111
+
+// Digits
+print(digit_sum(12345))     // -> 15
+print(digital_root(9999))   // -> 9
+print(reverse_num(12345))   // -> 54321
+print(is_palindrome(12321)) // -> 1
+
+// Control flow
+print(classify(97))     // -> 1 (prime)
+print(classify(16))     // -> 2 (div by 4)
+print(classify(9))      // -> 4 (odd non-prime)
+print(euler1(1000))     // -> 233168
+
+// Power / Math
+print(2 ^ 10)            // -> 1024
+print(tower_of_power(2, 4)) // -> 65536
+print(fib_sum(15))       // -> 1596
+
+
+// ═══════════════════════════════════════════════════════════
+//  MAIN — Part 2: ~ Random operator showcase
+// ═══════════════════════════════════════════════════════════
+
+// Single die roll (1~6)
+print(roll(6))
+
+// 3d6 (three six-sided dice, range 3-18)
+print(roll_dice(3, 6))
+
+// RPG damage with spread (base 50, spread 20 -> range 30~70)
+print(calc_damage(50, 20))
+
+// Monte Carlo: probability of rolling 7+ on 2d6 (~58%)
+print(monte_carlo_2d6(7, 10000))
+
+// Random walk until distance 10 from origin
+print(random_walk(10))
+
+// Find a random prime between 100 and 200
+print(random_prime(100, 200))
+
+// Duel simulation: warrior(100hp, 8~15dmg) vs rogue(80hp, 10~20dmg)
+print(duel(100, 8, 15, 80, 10, 20))
+
+// Lottery: how many times does 7 appear in 1000 draws from 1~50?
+print(lottery_hits(7, 1000, 50))
+
+// Chaos score: 20 rounds of (1~10)^(1~3)
+print(chaos_score(20))
+
+// Pure random expressions: nested ~ in arithmetic
+print((1 ~ 100) + (1 ~ 100) * (1 ~ 10))
+print(abs((1 ~ 50) - (1 ~ 50)))
+
+
+// ═══════════════════════════════════════════════════════════
+//  MAIN — Part 3: Interactive input()
+// ═══════════════════════════════════════════════════════════
+
+// Ask user for a number and do cool stuff with it
+print(0 - 999)  // separator: -999 means "input section starts"
+
+var n = input()
+print(fib(n))
+print(factorial(n))
+print(is_prime(n))
+print(collatz_steps(n))
+print(digit_sum(n))
+print(reverse_num(n))
+
+// Ask for two numbers, show GCD
+var a = input()
+var b = input()
+print(gcd(a, b))
+print(lcm(a, b))
+
+// Ask for a number, generate random numbers around it
+var center = input()
+print(center + (0 - 5) ~ 5)
+print(center + (0 - 10) ~ 10)
+print(center + (0 - 50) ~ 50)
+
+

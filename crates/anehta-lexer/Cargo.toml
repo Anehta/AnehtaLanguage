@@ -1,0 +1,9 @@
+[package]
+name = "anehta-lexer"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Lexer (tokenizer) for AnehtaLanguage"
+
+[dependencies]
+thiserror = { workspace = true }

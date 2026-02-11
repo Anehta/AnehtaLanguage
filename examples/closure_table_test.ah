@@ -1,0 +1,68 @@
+// ===== Closure + Table GC Tests =====
+
+// 1. Closure captures table variable — table must NOT be freed
+var player = { hp: 100, mp: 50 }
+var getHp = |x| => player.hp + x
+print(getHp(10))
+
+// 2. Closure creates table inside block body — must be freed
+func testClosureCreatesTable() -> int {
+    var maker = |n| => {
+        var t = { val: n }
+        return t.val * 2
+    }
+    return maker(21)
+}
+print(testClosureCreatesTable())
+
+// 3. Table variable captured, then reassigned — old value safe for closure
+var data = { val: 42 }
+var readData = |x| => data.val + x
+data = { val: 999 }
+// readData still has old data (val: 42)
+// Note: closure captures at creation time (value copy)
+print(readData(0))
+
+// 4. Multiple closures capture same table
+var shared = { count: 7 }
+var readA = |x| => shared.count + x
+var readB = |x| => shared.count * x
+print(readA(3))
+print(readB(3))
+
+// 5. Function with table + closure — table NOT freed (captured)
+func makeCounter() -> int {
+    var state = { n: 0 }
+    var other = { x: 100 }
+    var inc = |step| => state.n + step
+    // state is captured by inc → NOT freed
+    // other is NOT captured → freed normally
+    return inc(5)
+}
+print(makeCounter())
+
+// 6. Nested table in closure result
+func testNestedInClosure() -> int {
+    var maker = |n| => {
+        var t = { inner: { val: n } }
+        return t.inner.val
+    }
+    return maker(77)
+}
+print(testNestedInClosure())
+
+// 7. Loop with closure capturing table
+var loopTable = { sum: 0 }
+var getSum = |x| => loopTable.sum + x
+for (var i = 0; i < 5; i = i + 1) {
+    loopTable.sum = loopTable.sum + i
+}
+// loopTable.sum = 0+1+2+3+4 = 10, but closure captured at creation
+// closure has the original loopTable handle, field was mutated in-place
+print(getSum(0))
+
+print("All closure+table tests passed!")
+
+var readB = || => 10
+var a = {asd: readB}
+a.asd()

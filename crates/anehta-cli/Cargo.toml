@@ -1,0 +1,13 @@
+[package]
+name = "anehta-cli"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "CLI compiler for AnehtaLanguage"
+
+[dependencies]
+anehta-lexer = { workspace = true }
+anehta-parser = { workspace = true }
+anehta-codegen-wasm = { workspace = true }
+wasmtime = { workspace = true }
+rand = "0.9"

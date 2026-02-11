@@ -1,0 +1,2 @@
+func test(n: int) -> int { return n }
+print(test(1, 100000))

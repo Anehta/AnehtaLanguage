@@ -1,0 +1,106 @@
+// ===== Table 功能完整测试 =====
+
+// 1. 空表
+var empty = {}
+
+// 2. 单字段 int
+var t1 = { hp: 100 }
+print(t1.hp)
+
+// 3. 单字段 string
+var t2 = { name: "Alice" }
+print(t2.name)
+
+// 4. 多字段混合
+var player = { name: "Bob", hp: 200, mp: 50, alive: true }
+print(player.name)
+print(player.hp)
+print(player.mp)
+print(player.alive)
+
+// 5. 字段算术
+var pos = { x: 10, y: 20 }
+print(pos.x + pos.y)
+print(pos.x * pos.y)
+print(pos.y - pos.x)
+
+// 6. 点赋值
+var p = { hp: 100 }
+p.hp = 50
+print(p.hp)
+
+// 7. 方括号读取
+var q = { hp: 300 }
+print(q["hp"])
+
+// 8. 方括号赋值
+var r = { hp: 400 }
+r["hp"] = 999
+print(r["hp"])
+
+// 9. 嵌套表
+var outer = { inner: { x: 42 } }
+print(outer.inner.x)
+
+// 10. 深嵌套
+var deep = { a: { b: { c: 7 } } }
+print(deep.a.b.c)
+
+// 11. 表字段赋值为新值后再读
+var bag = { gold: 0 }
+bag.gold = 100
+bag.gold = bag.gold + 50
+print(bag.gold)
+
+// 12. 多个独立表
+var a = { val: 1 }
+var b = { val: 2 }
+var c = { val: 3 }
+print(a.val + b.val + c.val)
+
+// 13. 表在 if 中使用
+var enemy = { hp: 30 }
+if (enemy.hp > 0) {
+    print(enemy.hp)
+}
+
+// 14. 表在 for 中使用
+var counter = { n: 0 }
+for (var i = 0; i < 5; i = i + 1) {
+    counter.n = counter.n + 1
+}
+print(counter.n)
+
+// 15. 表传入函数
+func getHp(obj: int) -> int {
+    return obj
+}
+var hero = { hp: 999 }
+print(getHp(hero.hp))
+
+// 16. 字符串字段拼接
+var greet = { prefix: "Hello ", target: "World" }
+print(greet.prefix + greet.target)
+
+// 17. 表字面量中使用表达式值
+var base = 10
+var computed = { doubled: base * 2, tripled: base * 3 }
+print(computed.doubled)
+print(computed.tripled)
+
+// 18. 尾逗号
+var trailing = {
+    x: 1,
+    y: 2,
+}
+print(trailing.x + trailing.y)
+
+// 19. 方括号用字符串变量访问
+var key = "hp"
+var target = { hp: 777 }
+print(target[key])
+
+// 20. 给不存在的字段赋值（动态添加）
+var dynamic = {}
+dynamic["new_field"] = 42
+print(dynamic["new_field"])

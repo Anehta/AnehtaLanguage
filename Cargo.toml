@@ -1,0 +1,22 @@
+[workspace]
+members = [
+    "crates/anehta-lexer",
+    "crates/anehta-parser",
+    "crates/anehta-codegen-wasm",
+    "crates/anehta-cli",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+authors = ["Anehta"]
+description = "AnehtaLanguage compiler with WASM backend"
+
+[workspace.dependencies]
+anehta-lexer = { path = "crates/anehta-lexer" }
+anehta-parser = { path = "crates/anehta-parser" }
+anehta-codegen-wasm = { path = "crates/anehta-codegen-wasm" }
+wasm-encoder = "0.227"
+wasmtime = "29"
+thiserror = "2"

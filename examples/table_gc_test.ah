@@ -1,0 +1,94 @@
+// ===== Table GC (Ownership) Tests =====
+
+// 1. Simple table creation and auto-free at end of _start
+var t1 = { hp: 100 }
+print(t1.hp)
+
+// 2. Variable reassignment frees old table
+var t2 = { hp: 100 }
+t2 = { hp: 200 }
+print(t2.hp)
+
+// 3. Multiple reassignments
+var t3 = { val: 1 }
+t3 = { val: 2 }
+t3 = { val: 3 }
+print(t3.val)
+
+// 4. Loop creates tables without leaking (each iteration frees old)
+var loopT = { n: 0 }
+for (var i = 0; i < 10; i = i + 1) {
+    loopT = { n: i }
+}
+print(loopT.n)
+
+// 5. Nested table recursive free
+var nested = { child: { grandchild: { val: 42 } } }
+print(nested.child.grandchild.val)
+
+// 6. Empty table creation and free
+var empty1 = {}
+var empty2 = {}
+var empty3 = {}
+print(1)
+
+// 7. Function creates table, auto-freed at function end
+func makeAndDiscard() -> int {
+    var local_t = { x: 10, y: 20 }
+    return local_t.x + local_t.y
+}
+print(makeAndDiscard())
+
+// 8. Function returns table, ownership transfer
+func makeTable() -> int {
+    var t = { hp: 500 }
+    return t
+}
+var transferred = makeTable()
+print(transferred)
+
+// 9. Table parameter is borrowed, not freed by callee
+func readHp(obj: int) -> int {
+    return obj
+}
+var hero = { hp: 999 }
+print(readHp(hero.hp))
+
+// 10. Slot reuse test: create-free-create cycle
+func slotReuse() -> int {
+    var a = { val: 1 }
+    var b = { val: 2 }
+    var c = { val: 3 }
+    return a.val + b.val + c.val
+}
+// After slotReuse returns, slots are freed and can be reused
+var result1 = slotReuse()
+print(result1)
+var result2 = slotReuse()
+print(result2)
+
+// 11. Table in if/else branches
+var branchT = { val: 0 }
+if (1 > 0) {
+    branchT = { val: 100 }
+}
+print(branchT.val)
+
+// 12. Nested table with multiple children
+var multi = { a: { x: 1 }, b: { y: 2 }, c: { z: 3 } }
+print(multi.a.x + multi.b.y + multi.c.z)
+
+// 13. Field assignment after creation (int values only)
+var dynamic = { hp: 0 }
+dynamic.hp = 42
+dynamic["mp"] = 100
+print(dynamic.hp + dynamic["mp"])
+
+// 14. Deep reassignment chain
+var chain = { v: 0 }
+for (var i = 0; i < 100; i = i + 1) {
+    chain = { v: i }
+}
+print(chain.v)
+
+print("All GC tests passed!")

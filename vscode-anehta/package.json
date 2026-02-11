@@ -1,0 +1,111 @@
+{
+  "name": "anehta-language",
+  "displayName": "AnehtaLanguage",
+  "description": "Syntax highlighting, auto-completion, and snippets for AnehtaLanguage (.ah)",
+  "version": "0.1.0",
+  "publisher": "anehta",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "activationEvents": [
+    "onLanguage:anehta"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "anehta",
+        "aliases": [
+          "AnehtaLanguage",
+          "anehta",
+          "ah"
+        ],
+        "extensions": [
+          ".ah"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "anehta",
+        "scopeName": "source.anehta",
+        "path": "./syntaxes/anehta.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "anehta",
+        "path": "./snippets/anehta.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "anehta.build",
+        "title": "Anehta: Build",
+        "icon": "$(tools)"
+      },
+      {
+        "command": "anehta.run",
+        "title": "Anehta: Run",
+        "icon": "$(play)"
+      },
+      {
+        "command": "anehta.buildAndRun",
+        "title": "Anehta: Build & Run",
+        "icon": "$(rocket)"
+      }
+    ],
+    "menus": {
+      "editor/title/run": [
+        {
+          "command": "anehta.buildAndRun",
+          "when": "resourceLangId == anehta",
+          "group": "navigation@0"
+        },
+        {
+          "command": "anehta.build",
+          "when": "resourceLangId == anehta",
+          "group": "navigation@1"
+        },
+        {
+          "command": "anehta.run",
+          "when": "resourceLangId == anehta",
+          "group": "navigation@2"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "anehta.buildAndRun",
+          "when": "resourceLangId == anehta",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "AnehtaLanguage",
+      "properties": {
+        "anehta.cliPath": {
+          "type": "string",
+          "default": "E:\\RustProject\\AnehtaLanguage\\target\\release\\anehta-cli.exe",
+          "description": "Path to the anehta CLI executable (anehta-cli.exe)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "npx @vscode/vsce package"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0",
+    "@vscode/vsce": "^3.0.0"
+  }
+}

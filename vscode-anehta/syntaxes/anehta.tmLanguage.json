@@ -1,0 +1,255 @@
+{
+  "scopeName": "source.anehta",
+  "name": "AnehtaLanguage",
+  "fileTypes": ["ah"],
+  "patterns": [
+    { "include": "#comment" },
+    { "include": "#string" },
+    { "include": "#closure-expression" },
+    { "include": "#function-definition" },
+    { "include": "#variable-declaration" },
+    { "include": "#timer-block" },
+    { "include": "#control-keywords" },
+    { "include": "#language-constants" },
+    { "include": "#builtin-functions" },
+    { "include": "#type-annotation-colon" },
+    { "include": "#return-type-arrow" },
+    { "include": "#number" },
+    { "include": "#field-access" },
+    { "include": "#function-call" },
+    { "include": "#random-operator" },
+    { "include": "#operators" },
+    { "include": "#punctuation-arrow" },
+    { "include": "#punctuation-other" }
+  ],
+  "repository": {
+    "comment": {
+      "patterns": [
+        {
+          "match": "(//).*$",
+          "name": "comment.line.double-slash.anehta",
+          "captures": {
+            "1": { "name": "punctuation.definition.comment.anehta" }
+          }
+        }
+      ]
+    },
+
+    "string": {
+      "begin": "\"",
+      "end": "\"",
+      "beginCaptures": { "0": { "name": "punctuation.definition.string.begin.anehta" } },
+      "endCaptures":   { "0": { "name": "punctuation.definition.string.end.anehta" } },
+      "name": "string.quoted.double.anehta",
+      "patterns": [
+        {
+          "match": "\\\\(?:[\"\\\\nrt0]|x[0-9A-Fa-f]{2})",
+          "name": "constant.character.escape.anehta"
+        }
+      ]
+    },
+
+    "closure-expression": {
+      "begin": "(\\|)(?=[^|]*\\|\\s*=>|\\|\\s*=>)",
+      "beginCaptures": {
+        "1": { "name": "punctuation.definition.closure.pipe.anehta" }
+      },
+      "end": "(\\|)\\s*(=>)",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.closure.pipe.anehta" },
+        "2": { "name": "keyword.operator.fat-arrow.anehta" }
+      },
+      "patterns": [
+        { "include": "#closure-parameter" },
+        { "include": "#comment" }
+      ]
+    },
+
+    "closure-parameter": {
+      "match": "\\b([a-zA-Z_]\\w*)\\s*(?:(:)\\s*(int|string|str|number|bool)\\b)?",
+      "captures": {
+        "1": { "name": "variable.parameter.closure.anehta" },
+        "2": { "name": "punctuation.separator.colon.anehta" },
+        "3": { "name": "storage.type.anehta" }
+      }
+    },
+
+    "function-definition": {
+      "begin": "\\b(func)\\s+([a-zA-Z_]\\w*)\\s*(\\()",
+      "beginCaptures": {
+        "1": { "name": "keyword.declaration.function.anehta" },
+        "2": { "name": "entity.name.function.definition.anehta" },
+        "3": { "name": "punctuation.definition.parameters.begin.anehta" }
+      },
+      "end": "(\\))",
+      "endCaptures": {
+        "1": { "name": "punctuation.definition.parameters.end.anehta" }
+      },
+      "patterns": [
+        { "include": "#function-parameter" },
+        { "include": "#comment" }
+      ]
+    },
+
+    "function-parameter": {
+      "match": "\\b([a-zA-Z_]\\w*)\\s*(:)\\s*(int|string|str|number|bool)\\b",
+      "captures": {
+        "1": { "name": "variable.parameter.anehta" },
+        "2": { "name": "punctuation.separator.colon.anehta" },
+        "3": { "name": "storage.type.anehta" }
+      }
+    },
+
+    "variable-declaration": {
+      "patterns": [
+        {
+          "match": "\\b(var)\\s+([a-zA-Z_]\\w*)\\s*(:)\\s*(int|string|str|number|bool)\\b",
+          "captures": {
+            "1": { "name": "keyword.declaration.var.anehta" },
+            "2": { "name": "variable.other.anehta" },
+            "3": { "name": "punctuation.separator.colon.anehta" },
+            "4": { "name": "storage.type.anehta" }
+          }
+        },
+        {
+          "match": "\\b(var)\\s+([a-zA-Z_]\\w*)",
+          "captures": {
+            "1": { "name": "keyword.declaration.var.anehta" },
+            "2": { "name": "variable.other.anehta" }
+          }
+        }
+      ]
+    },
+
+    "timer-block": {
+      "match": "\\b(timer)\\b",
+      "name": "keyword.control.timer.anehta"
+    },
+
+    "control-keywords": {
+      "match": "\\b(if|else|elseif|for|return|break|continue)\\b",
+      "name": "keyword.control.anehta"
+    },
+
+    "language-constants": {
+      "match": "\\b(true|false)\\b",
+      "name": "constant.language.anehta"
+    },
+
+    "builtin-functions": {
+      "match": "\\b(print|input)(?=\\s*\\()",
+      "name": "support.function.builtin.anehta"
+    },
+
+    "type-annotation-colon": {
+      "match": "(:)\\s*(int|string|str|number|bool)\\b",
+      "captures": {
+        "1": { "name": "punctuation.separator.colon.anehta" },
+        "2": { "name": "storage.type.anehta" }
+      }
+    },
+
+    "return-type-arrow": {
+      "match": "(->)\\s*(int|string|str|number|bool)\\b",
+      "captures": {
+        "1": { "name": "punctuation.arrow.return-type.anehta" },
+        "2": { "name": "storage.type.anehta" }
+      }
+    },
+
+    "number": {
+      "match": "\\b[0-9]+(\\.[0-9]+)?\\b",
+      "name": "constant.numeric.anehta"
+    },
+
+    "field-access": {
+      "match": "\\.([a-zA-Z_]\\w*)\\b(?!\\s*\\()",
+      "captures": {
+        "1": { "name": "variable.other.property.anehta" }
+      }
+    },
+
+    "function-call": {
+      "match": "\\b([a-zA-Z_]\\w*)(?=\\s*\\()",
+      "captures": {
+        "1": { "name": "entity.name.function.call.anehta" }
+      }
+    },
+
+    "random-operator": {
+      "match": "~",
+      "name": "keyword.operator.random.anehta"
+    },
+
+    "operators": {
+      "patterns": [
+        {
+          "match": "==|!=|<=|>=",
+          "name": "keyword.operator.comparison.anehta"
+        },
+        {
+          "match": "&&|\\|\\|",
+          "name": "keyword.operator.logical.anehta"
+        },
+        {
+          "match": "(\\|\\|)\\s*(=>)",
+          "captures": {
+            "1": { "name": "punctuation.definition.closure.pipe.anehta" },
+            "2": { "name": "keyword.operator.fat-arrow.anehta" }
+          }
+        },
+        {
+          "match": "=>",
+          "name": "keyword.operator.fat-arrow.anehta"
+        },
+        {
+          "match": "\\+\\+|--",
+          "name": "keyword.operator.arithmetic.increment.anehta"
+        },
+        {
+          "match": "\\^",
+          "name": "keyword.operator.arithmetic.power.anehta"
+        },
+        {
+          "match": "\\+=|-=|\\*=|/=|%=",
+          "name": "keyword.operator.assignment.compound.anehta"
+        },
+        {
+          "match": "=",
+          "name": "keyword.operator.assignment.anehta"
+        },
+        {
+          "match": "[+\\-*/%]",
+          "name": "keyword.operator.arithmetic.anehta"
+        },
+        {
+          "match": "[<>]",
+          "name": "keyword.operator.comparison.anehta"
+        },
+        {
+          "match": "!",
+          "name": "keyword.operator.logical.not.anehta"
+        }
+      ]
+    },
+
+    "punctuation-arrow": {
+      "match": "->",
+      "name": "punctuation.arrow.anehta"
+    },
+
+    "punctuation-other": {
+      "patterns": [
+        { "match": ":", "name": "punctuation.separator.colon.anehta" },
+        { "match": ",", "name": "punctuation.separator.comma.anehta" },
+        { "match": ";", "name": "punctuation.terminator.semicolon.anehta" },
+        { "match": "\\{", "name": "punctuation.definition.block.begin.anehta" },
+        { "match": "\\}", "name": "punctuation.definition.block.end.anehta" },
+        { "match": "\\(", "name": "punctuation.definition.paren.begin.anehta" },
+        { "match": "\\)", "name": "punctuation.definition.paren.end.anehta" },
+        { "match": "\\[", "name": "punctuation.definition.bracket.begin.anehta" },
+        { "match": "\\]", "name": "punctuation.definition.bracket.end.anehta" }
+      ]
+    }
+  }
+}

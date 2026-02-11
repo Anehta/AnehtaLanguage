@@ -1,0 +1,12 @@
+func test(n: int) -> int {
+    var result = 0
+    for (var i = 0; i < n; i = i + 1) {
+        result = result + i
+    }
+    return result
+}
+
+
+timer {
+    print(test(100000000))
+}

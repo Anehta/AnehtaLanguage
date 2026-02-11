@@ -1,0 +1,10 @@
+[package]
+name = "anehta-parser"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "Parser and AST for AnehtaLanguage"
+
+[dependencies]
+anehta-lexer = { workspace = true }
+thiserror = { workspace = true }

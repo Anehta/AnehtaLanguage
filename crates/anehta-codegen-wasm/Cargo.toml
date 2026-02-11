@@ -1,0 +1,15 @@
+[package]
+name = "anehta-codegen-wasm"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+description = "WASM code generation backend for AnehtaLanguage"
+
+[dependencies]
+anehta-parser = { workspace = true }
+anehta-lexer = { workspace = true }
+wasm-encoder = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+wasmparser = "0.227"

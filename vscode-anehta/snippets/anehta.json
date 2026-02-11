@@ -1,0 +1,167 @@
+{
+  "Function Declaration": {
+    "prefix": "func",
+    "body": [
+      "func ${1:name}(${2:params}) -> ${3:int} {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Declare a function with parameters and return type"
+  },
+  "For Loop": {
+    "prefix": "for",
+    "body": [
+      "for (var ${1:i} = ${2:0}; ${1:i} < ${3:n}; ${1:i} = ${1:i} + 1) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Standard for loop with counter"
+  },
+  "For Infinite Loop": {
+    "prefix": "fori",
+    "body": [
+      "for (;;) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Infinite for loop"
+  },
+  "If Statement": {
+    "prefix": "if",
+    "body": [
+      "if (${1:condition}) {",
+      "\t$0",
+      "}"
+    ],
+    "description": "If statement"
+  },
+  "If-Else Statement": {
+    "prefix": "ife",
+    "body": [
+      "if (${1:condition}) {",
+      "\t$2",
+      "} else {",
+      "\t$0",
+      "}"
+    ],
+    "description": "If-else statement"
+  },
+  "If-Elseif-Else Statement": {
+    "prefix": "ifel",
+    "body": [
+      "if (${1:condition}) {",
+      "\t$2",
+      "} elseif (${3:condition}) {",
+      "\t$4",
+      "} else {",
+      "\t$0",
+      "}"
+    ],
+    "description": "If-elseif-else statement"
+  },
+  "Timer Block": {
+    "prefix": "timer",
+    "body": [
+      "timer {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Timer block — auto-measures and prints elapsed time"
+  },
+  "Variable Declaration": {
+    "prefix": "var",
+    "body": [
+      "var ${1:name} = ${0:value}"
+    ],
+    "description": "Declare a variable"
+  },
+  "Variable with Type": {
+    "prefix": "vart",
+    "body": [
+      "var ${1:name}: ${2:int} = ${0:value}"
+    ],
+    "description": "Declare a variable with explicit type"
+  },
+  "Print": {
+    "prefix": "print",
+    "body": [
+      "print(${0:value})"
+    ],
+    "description": "Print a value to stdout"
+  },
+  "Input": {
+    "prefix": "input",
+    "body": [
+      "var ${1:x} = input()"
+    ],
+    "description": "Read an integer from stdin"
+  },
+  "Random Range": {
+    "prefix": "rand",
+    "body": [
+      "${1:min} ~ ${2:max}"
+    ],
+    "description": "Random number in range [min, max] using ~ operator"
+  },
+  "Closure Expression": {
+    "prefix": "closure",
+    "body": [
+      "|${1:x}| => ${0:expr}"
+    ],
+    "description": "Closure (anonymous function) with single expression body"
+  },
+  "Closure Block": {
+    "prefix": "closureb",
+    "body": [
+      "|${1:x}| => {",
+      "\t$0",
+      "}"
+    ],
+    "description": "Closure (anonymous function) with block body"
+  },
+  "Closure No Params": {
+    "prefix": "closure0",
+    "body": [
+      "|| => ${0:expr}"
+    ],
+    "description": "Zero-parameter closure"
+  },
+  "Table Literal": {
+    "prefix": "table",
+    "body": [
+      "var ${1:name} = {",
+      "\t${2:key}: ${0:value}",
+      "}"
+    ],
+    "description": "Table literal with key-value pairs"
+  },
+  "Table Multi-field": {
+    "prefix": "tablem",
+    "body": [
+      "var ${1:name} = { ${2:key1}: ${3:val1}, ${4:key2}: ${0:val2} }"
+    ],
+    "description": "Table with multiple fields on one line"
+  },
+  "Table Nested": {
+    "prefix": "tablen",
+    "body": [
+      "var ${1:name} = {",
+      "\t${2:key}: {",
+      "\t\t${3:innerKey}: ${0:innerValue}",
+      "\t}",
+      "}"
+    ],
+    "description": "Nested table literal (tables can only nest in literals)"
+  },
+  "Table Factory Function": {
+    "prefix": "tablef",
+    "body": [
+      "func ${1:make}() -> int {",
+      "\tvar t = { ${2:key}: ${3:value} }",
+      "\treturn t",
+      "}",
+      "var ${4:result} = ${1:make}()"
+    ],
+    "description": "Function that creates and returns a table (ownership transfer)"
+  }
+}

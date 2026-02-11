@@ -1,0 +1,24 @@
+# Rust
+/target/
+Cargo.lock
+
+# WASM build artifacts
+*.wasm
+
+# VSCode extension
+vscode-anehta/node_modules/
+vscode-anehta/out/
+vscode-anehta/*.vsix
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+nul
