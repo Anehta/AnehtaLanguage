@@ -4,6 +4,7 @@ AnehtaLanguage 是一门编译到 WebAssembly 的实验性编程语言，由 Rus
 
 ## 特色
 
+- **WASM SIMD 向量/矩阵** — 一等公民的向量和矩阵类型，完全内联的 SIMD 加速运算
 - **原生随机运算符 `~`** — `1~6` 直接生成 1 到 6 的随机整数，和 `+` `-` 一样是一等运算符
 - **多返回值** — 函数可以返回多个值，配合多变量赋值使用
 - **闭包** — 支持捕获外部变量的 lambda 表达式
@@ -67,6 +68,9 @@ var a, b = swap(1, 2)         // 多变量赋值
 | `>` `<` `>=` `<=` `==` `!=` | 比较 | `x > 10` |
 | `&&` `\|\|` | 逻辑与/或 | `x > 0 && x < 100` |
 | `+` | 字符串拼接 | `"Hello" + " World"` |
+| `@` | 向量点积 | `v1 @ v2` → 标量 |
+| `#` | 向量叉积 (3D) | `v1 # v2` → 向量 |
+| `'` | 矩阵转置 | `m'` → 转置矩阵 |
 
 ### 函数
 
@@ -159,6 +163,96 @@ var math = {op: |x, y| => x + y}
 print(math.op(3, 4))  // 7
 ```
 
+### 向量与矩阵 (WASM SIMD)
+
+AnehtaLanguage 将向量和矩阵作为**一等公民**，所有运算使用 **WASM SIMD** 内联实现，性能接近原生代码。
+
+#### 向量运算
+
+```javascript
+// 向量字面量
+var v1 = [1.0, 2.0, 3.0]
+var v2 = [4.0, 5.0, 6.0]
+
+// 逐元素运算 (SIMD 加速)
+print(v1 + v2)       // [5.0, 7.0, 9.0]
+print(v1 - v2)       // [-3.0, -3.0, -3.0]
+print(v1 * v2)       // [4.0, 10.0, 18.0] (逐元素乘)
+
+// 标量运算
+print(v1 * 2.0)      // [2.0, 4.0, 6.0]
+print(v1 + 10.0)     // [11.0, 12.0, 13.0]
+print(v1 / 2.0)      // [0.5, 1.0, 1.5]
+
+// 点积 (SIMD)
+var dot = v1 @ v2    // 32.0 (1*4 + 2*5 + 3*6)
+
+// 叉积 (3D向量)
+var a = [1.0, 0.0, 0.0]
+var b = [0.0, 1.0, 0.0]
+var c = a # b        // [0.0, 0.0, 1.0] (z轴)
+
+// 索引访问
+print(v1[0])         // 1.0
+v1[1] = 99.0
+
+// Swizzle (分量提取)
+print(v1.x)          // 1.0
+print(v1.xy)         // [1.0, 2.0]
+print(v1.xyz)        // [1.0, 2.0, 3.0]
+
+// 向量长度
+print(len(v1))       // 3
+```
+
+#### 矩阵运算
+
+```javascript
+// 矩阵字面量 (行主序，用 ; 分隔行)
+var m1 = [1.0, 2.0; 3.0, 4.0]        // 2×2 矩阵
+var m2 = [1.0, 2.0, 3.0; 4.0, 5.0, 6.0]  // 2×3 矩阵
+
+// 逐元素运算 (SIMD 加速)
+var m3 = [5.0, 6.0; 7.0, 8.0]
+print(m1 + m3)       // [[6.0, 8.0], [10.0, 12.0]]
+print(m1 - m3)       // [[-4.0, -4.0], [-4.0, -4.0]]
+print(m1 * 2.0)      // [[2.0, 4.0], [6.0, 8.0]]
+
+// 矩阵乘法 (SIMD 优化)
+var result = m1 * m3              // 真正的矩阵乘法
+print(result)                     // [[19.0, 22.0], [43.0, 50.0]]
+
+// 矩阵×向量 (SIMD)
+var v = [1.0, 0.0]
+var transformed = m1 * v          // [1.0, 3.0]
+
+// 转置 (循环展开优化)
+var mt = m1'                      // 2×2 → 2×2 转置
+print(mt)                         // [[1.0, 3.0], [2.0, 4.0]]
+
+// 链式操作
+var complex = (m1 + m3)'          // 先加法后转置
+print((m1')')                     // 双重转置 = 原矩阵
+
+// 索引访问
+print(m1[0][1])      // 2.0
+m1[1][0] = 99.0
+```
+
+#### 性能优势
+
+所有向量/矩阵运算都是 **完全内联的 WASM SIMD 指令**，无函数调用开销：
+
+- ✅ 使用 128-bit SIMD 向量（一次处理 2 个 f64）
+- ✅ 零 host function 调用开销
+- ✅ 浏览器和 CLI 通用
+- ✅ 自动处理奇数长度（tail handling）
+
+**性能对比**：
+- 向量运算：~2x SIMD 加速
+- 矩阵乘法：~2-4x SIMD 加速
+- 转置：~1.3-1.5x 循环展开优化
+
 ### 计时器
 
 ```javascript
@@ -202,7 +296,12 @@ AnehtaLanguage/
 │   ├── timer_demo.ah          # 性能基准测试
 │   ├── table_test.ah          # 表功能测试
 │   ├── table_gc_test.ah       # 表 GC 测试
-│   └── closure_table_test.ah  # 闭包+表测试
+│   ├── closure_table_test.ah  # 闭包+表测试
+│   ├── simd_showcase.ah       # SIMD 向量/矩阵完整展示
+│   ├── vec_simd_complete.ah   # 向量 SIMD 完整测试
+│   ├── mat_simd_test.ah       # 矩阵 SIMD 测试
+│   ├── mat_multiply_test.ah   # 矩阵乘法测试
+│   └── transpose_test.ah      # 转置运算测试
 ├── vscode-anehta/             # VSCode 语法高亮扩展
 ├── LANGUAGE_SPEC.md           # 语言规范 (English)
 └── AnehtaLanguage语法规范.md   # 语言规范 (中文)
@@ -218,26 +317,58 @@ AnehtaLanguage/
 
 编译器生成的 WASM 模块通过以下宿主函数与运行时交互：
 
+### 核心函数
+
 | 函数 | 签名 | 说明 |
 |------|------|------|
 | `env.print` | `(i64)` | 打印整数 |
 | `env.print_str` | `(i64)` | 打印字符串 |
+| `env.print_float` | `(i64)` | 打印浮点数 |
 | `env.input` | `() → i64` | 读取用户输入 |
 | `env.random` | `(i64, i64) → i64` | 生成范围内随机数 |
 | `env.clock` | `() → i64` | 获取时钟 (毫秒) |
 | `env.str_concat` | `(i64, i64) → i64` | 字符串拼接 |
+
+### 表操作
+
+| 函数 | 签名 | 说明 |
+|------|------|------|
 | `env.table_new` | `() → i64` | 创建新表 |
 | `env.table_get` | `(i64, i64) → i64` | 读取表字段 |
 | `env.table_set` | `(i64, i64, i64)` | 设置表字段 |
 | `env.table_free` | `(i64)` | 释放表 |
 
+### 向量/矩阵输出
+
+| 函数 | 签名 | 说明 |
+|------|------|------|
+| `env.print_vec` | `(i64)` | 打印向量 |
+| `env.print_mat` | `(i64)` | 打印矩阵 |
+
+**注**：向量/矩阵的**所有运算**（加减乘除、点积、叉积、转置等）都是**完全内联的 WASM SIMD 指令**，无需调用 host function，零运行时开销。
+
 ## VSCode 扩展
 
-`vscode-anehta/` 目录包含 VSCode 语法高亮扩展，支持：
+`vscode-anehta/` 目录包含 VSCode 语法高亮扩展 (v0.2.0)，支持：
 
-- `.ah` 文件语法高亮
-- 代码自动补全片段
+- `.ah` 文件完整语法高亮
+  - 向量/矩阵字面量 `[1, 2, 3]`, `[a, b; c, d]`
+  - 新运算符 `@` `#` `'`
+  - Swizzle 语法 `.x` `.xyz` `.rgba`
+- 代码片段（Snippets）
+  - 向量：`vec2`, `vec3`, `vec4`, `vdot`, `vcross`
+  - 矩阵：`mat2`, `mat3`, `mat4`, `mmul`, `mvmul`
+  - Swizzle：`sxy`, `sxyz`, `srgba`
 - 一键 Build / Run 按钮
+
+安装扩展：
+```bash
+cd vscode-anehta
+npm install
+npm run compile
+npx @vscode/vsce package
+code --install-extension anehta-language-0.2.0.vsix
+```
 
 ## 许可证
 

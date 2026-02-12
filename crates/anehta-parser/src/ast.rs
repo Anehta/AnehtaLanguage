@@ -149,6 +149,20 @@ pub struct TableLiteral {
     pub span: Span,
 }
 
+/// Vec literal: [elem1, elem2, ...]
+#[derive(Debug)]
+pub struct VecLiteral {
+    pub elements: Vec<Expr>,
+    pub span: Span,
+}
+
+/// Mat literal: [row1_elem1, row1_elem2; row2_elem1, row2_elem2]
+#[derive(Debug)]
+pub struct MatLiteral {
+    pub rows: Vec<Vec<Expr>>,  // row-major storage
+    pub span: Span,
+}
+
 /// A single key-value entry in a table literal
 #[derive(Debug)]
 pub struct TableEntry {
@@ -169,6 +183,13 @@ pub struct FieldAccess {
 pub struct IndexAccess {
     pub object: Box<Expr>,
     pub index: Box<Expr>,
+    pub span: Span,
+}
+
+/// Matrix transpose: m'
+#[derive(Debug)]
+pub struct Transpose {
+    pub operand: Box<Expr>,
     pub span: Span,
 }
 
@@ -241,14 +262,24 @@ pub enum Expr {
     CallFunc(CallFunc),
     Closure(ClosureExpr),
     TableLiteral(TableLiteral),
+    VecLiteral(VecLiteral),
+    MatLiteral(MatLiteral),
     FieldAccess(FieldAccess),
     IndexAccess(IndexAccess),
+    Transpose(Transpose),
     MethodCall(MethodCall),
     Grouped(Box<Expr>),
+    Range {
+        start: Option<Box<Expr>>,
+        end: Option<Box<Expr>>,
+        span: Span,
+    },
+    /// Boolean expression used for masking: v[v > 0]
+    BooleanExpr(Box<BooleanExpr>),
 }
 
 #[derive(Debug, Clone, Copy)]
-pub enum BinaryOp { Add, Sub, Mul, Div, Power, Mod, Rand }
+pub enum BinaryOp { Add, Sub, Mul, Div, Power, DotPow, Mod, Rand, At, Hash, Backslash }
 
 #[derive(Debug, Clone, Copy)]
 pub enum UnaryOp { Increment, Decrement }

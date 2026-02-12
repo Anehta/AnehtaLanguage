@@ -1,0 +1,86 @@
+// WASM SIMD 完整功能展示
+
+print("====================================")
+print("  AnehtaLanguage WASM SIMD 展示")
+print("====================================")
+
+print("")
+print("【向量运算 - 完全内联 SIMD】")
+print("-----------------------------------")
+
+var v1 = [1.0, 2.0, 3.0, 4.0]
+var v2 = [5.0, 6.0, 7.0, 8.0]
+
+print("v1 = ")
+print(v1)
+print("v2 = ")
+print(v2)
+print("")
+print("v1 + v2 = ")
+print(v1 + v2)
+print("v1 - v2 = ")
+print(v1 - v2)
+print("v1 * v2 = ")
+print(v1 * v2)
+print("v1 @ v2 = ")
+print(v1 @ v2)
+print("")
+print("v1 * 2.0 = ")
+print(v1 * 2.0)
+print("v1 + 10.0 = ")
+print(v1 + 10.0)
+print("v1 - 1.0 = ")
+print(v1 - 1.0)
+print("v1 / 2.0 = ")
+print(v1 / 2.0)
+
+print("")
+print("【3D 向量叉积】")
+print("-----------------------------------")
+var a = [1.0, 0.0, 0.0]
+var b = [0.0, 1.0, 0.0]
+print("a = ")
+print(a)
+print("b = ")
+print(b)
+print("a # b = ")
+print(a # b)
+print("(应该是 z 轴)")
+
+print("")
+print("【矩阵运算 - SIMD 加速】")
+print("-----------------------------------")
+var m1 = [1.0, 2.0; 3.0, 4.0]
+var m2 = [5.0, 6.0; 7.0, 8.0]
+
+print("m1 = ")
+print(m1)
+print("m2 = ")
+print(m2)
+print("")
+print("m1 + m2 = ")
+print(m1 + m2)
+print("m1 - m2 = ")
+print(m1 - m2)
+print("m1 * 3.0 = ")
+print(m1 * 3.0)
+
+print("")
+print("【性能测试 - 大向量】")
+print("-----------------------------------")
+var big1 = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]
+var big2 = [10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0]
+print("10 元素向量点积: ")
+print(big1 @ big2)
+print("逐元素相乘: ")
+print(big1 * big2)
+
+print("")
+print("【SIMD 优势】")
+print("-----------------------------------")
+print("✓ 每次处理 2 个 f64（128 位）")
+print("✓ 零 host function 调用开销")
+print("✓ 浏览器和 CLI 通用")
+print("✓ 自动尾部处理")
+print("")
+print("====================================")

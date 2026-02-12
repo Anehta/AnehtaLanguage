@@ -21,6 +21,7 @@ pub enum TokenType {
     Mul,          // *
     Div,          // /
     Power,        // ^
+    DotPow,       // .^ (element-wise power)
     Mod,          // %
     Rand,         // ~
     AddSelf,      // ++
@@ -49,11 +50,18 @@ pub enum TokenType {
     And,          // &
     Or,           // |
 
+    // Vec/Mat operators
+    At,           // @ (dot product)
+    Hash,         // # (cross product)
+    Backslash,    // \ (left division, solve)
+    Transpose,    // ' (matrix transpose)
+
     // Assignment & type
     Assignment,   // =
     FatArrow,     // =>
     Casting,      // ->
     Dot,          // .
+    Range,        // .. (range for slicing)
 
     // Delimiters
     LParen,       // (

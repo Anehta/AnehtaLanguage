@@ -1,0 +1,13 @@
+// 测试矩阵逐元素幂运算 mat .^ scalar
+
+var m = [1.0, 2.0; 3.0, 4.0]
+print("矩阵 m:")
+print(m)
+
+var m2 = m .^ 2.0
+print("m .^ 2:")
+print(m2)
+
+var m_sqrt = m .^ 0.5
+print("m .^ 0.5:")
+print(m_sqrt)

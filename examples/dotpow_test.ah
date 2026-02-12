@@ -1,0 +1,39 @@
+// 测试 .^ 逐元素幂运算符
+
+// Vec .^ scalar
+var v = [2.0, 3.0, 4.0]
+print("v = ")
+print(v)
+
+var v2 = v .^ 2.0
+print("v .^ 2 = ")
+print(v2)
+
+var v_half = v .^ 0.5
+print("v .^ 0.5 = ")
+print(v_half)
+
+// Mat .^ scalar
+var m = [1.0, 2.0; 3.0, 4.0]
+print("m = ")
+print(m)
+
+var m2 = m .^ 2.0
+print("m .^ 2 = ")
+print(m2)
+
+var m3 = m .^ 3.0
+print("m .^ 3 = ")
+print(m3)
+
+// Float .^ Float (确保不会破坏普通浮点幂)
+var f = 2.5
+var f2 = f .^ 2.0
+print("2.5 .^ 2 = ")
+print(f2)
+
+// Int .^ Int (整数幂应该仍然使用循环)
+var i = 2
+var i3 = i .^ 3
+print("2 .^ 3 = ")
+print(i3)

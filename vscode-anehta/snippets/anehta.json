@@ -163,5 +163,130 @@
       "var ${4:result} = ${1:make}()"
     ],
     "description": "Function that creates and returns a table (ownership transfer)"
+  },
+  "Vector 2D": {
+    "prefix": "vec2",
+    "body": [
+      "var ${1:v} = [${2:1.0}, ${0:2.0}]"
+    ],
+    "description": "Create a 2D vector"
+  },
+  "Vector 3D": {
+    "prefix": "vec3",
+    "body": [
+      "var ${1:v} = [${2:1.0}, ${3:2.0}, ${0:3.0}]"
+    ],
+    "description": "Create a 3D vector"
+  },
+  "Vector 4D": {
+    "prefix": "vec4",
+    "body": [
+      "var ${1:v} = [${2:1.0}, ${3:2.0}, ${4:3.0}, ${0:4.0}]"
+    ],
+    "description": "Create a 4D vector"
+  },
+  "Matrix 2x2": {
+    "prefix": "mat2",
+    "body": [
+      "var ${1:m} = [${2:1.0}, ${3:0.0};",
+      "             ${4:0.0}, ${0:1.0}]"
+    ],
+    "description": "Create a 2x2 matrix (identity by default)"
+  },
+  "Matrix 3x3": {
+    "prefix": "mat3",
+    "body": [
+      "var ${1:m} = [${2:1.0}, ${3:0.0}, ${4:0.0};",
+      "             ${5:0.0}, ${6:1.0}, ${7:0.0};",
+      "             ${8:0.0}, ${9:0.0}, ${0:1.0}]"
+    ],
+    "description": "Create a 3x3 matrix (identity by default)"
+  },
+  "Matrix 4x4": {
+    "prefix": "mat4",
+    "body": [
+      "var ${1:m} = [${2:1.0}, ${3:0.0}, ${4:0.0}, ${5:0.0};",
+      "             ${6:0.0}, ${7:1.0}, ${8:0.0}, ${9:0.0};",
+      "             ${10:0.0}, ${11:0.0}, ${12:1.0}, ${13:0.0};",
+      "             ${14:0.0}, ${15:0.0}, ${16:0.0}, ${0:1.0}]"
+    ],
+    "description": "Create a 4x4 matrix (identity by default)"
+  },
+  "Vector Dot Product": {
+    "prefix": "vdot",
+    "body": [
+      "var ${1:dot} = ${2:v1} @ ${0:v2}"
+    ],
+    "description": "Calculate dot product of two vectors using @ operator"
+  },
+  "Vector Cross Product": {
+    "prefix": "vcross",
+    "body": [
+      "var ${1:cross} = ${2:v1} # ${0:v2}"
+    ],
+    "description": "Calculate cross product of two 3D vectors using # operator"
+  },
+  "Vector Addition": {
+    "prefix": "vadd",
+    "body": [
+      "var ${1:result} = ${2:v1} + ${0:v2}"
+    ],
+    "description": "Add two vectors element-wise"
+  },
+  "Vector Scalar Multiply": {
+    "prefix": "vscale",
+    "body": [
+      "var ${1:result} = ${2:v} * ${0:2.0}"
+    ],
+    "description": "Multiply vector by scalar"
+  },
+  "Swizzle XY": {
+    "prefix": "sxy",
+    "body": [
+      "var ${1:v2d} = ${0:v}.xy"
+    ],
+    "description": "Extract x and y components using swizzle"
+  },
+  "Swizzle XYZ": {
+    "prefix": "sxyz",
+    "body": [
+      "var ${1:v3d} = ${0:v}.xyz"
+    ],
+    "description": "Extract x, y, z components using swizzle"
+  },
+  "Swizzle RGBA": {
+    "prefix": "srgba",
+    "body": [
+      "var ${1:color} = ${0:v}.rgba"
+    ],
+    "description": "Extract r, g, b, a components using swizzle"
+  },
+  "Matrix Multiply": {
+    "prefix": "mmul",
+    "body": [
+      "var ${1:result} = ${2:m1} * ${0:m2}"
+    ],
+    "description": "Multiply two matrices (true matrix multiplication)"
+  },
+  "Matrix Vector Multiply": {
+    "prefix": "mvmul",
+    "body": [
+      "var ${1:result} = ${2:mat} * ${0:vec}"
+    ],
+    "description": "Multiply matrix by vector"
+  },
+  "Float Conversion": {
+    "prefix": "tofloat",
+    "body": [
+      "var ${1:f} = float(${0:value})"
+    ],
+    "description": "Convert value to float using float() function"
+  },
+  "Vector Length": {
+    "prefix": "vlen",
+    "body": [
+      "var ${1:length} = len(${0:v})"
+    ],
+    "description": "Get length of vector using len() function"
   }
 }

@@ -1,9 +1,13 @@
 {
   "name": "anehta-language",
   "displayName": "AnehtaLanguage",
-  "description": "Syntax highlighting, auto-completion, and snippets for AnehtaLanguage (.ah)",
-  "version": "0.1.0",
+  "description": "Syntax highlighting, auto-completion, and snippets for AnehtaLanguage (.ah) with Vec/Mat SIMD support",
+  "version": "0.2.0",
   "publisher": "anehta",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anehta/AnehtaLanguage.git"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },

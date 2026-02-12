@@ -1,0 +1,37 @@
+// Vec 字面量 + print
+var v = [1, 2, 3]
+print(v)
+
+// 索引
+print(v[0])
+print(v[2])
+
+// swizzle
+print(v.x)
+print(v.z)
+var len_val = v.len
+print(len_val)
+
+// 算术运算
+var u = [4, 5, 6]
+var w = v + u
+print(w)
+
+var d = v - u
+print(d)
+
+// 标量乘法
+var s = v * 2
+print(s)
+
+// 逐元素乘
+var m = v * u
+print(m)
+
+// 点积
+var dot = v @ u
+print(dot)
+
+// 叉积
+var cross = v # u
+print(cross)

@@ -1,0 +1,41 @@
+
+    // ========== Matrix Host Functions ==========
+
+    // Host function: env.print_mat(mat: i64)
+    linker
+        .func_wrap(
+            "env",
+            "print_mat",
+            |mut caller: Caller<'_, RuntimeState>, mat: i64| {
+                let ptr = (mat >> 32) as u32;
+                let rows = ((mat >> 16) & 0xFFFF) as u32;
+                let cols = (mat & 0xFFFF) as u32;
+                if rows == 0 || cols == 0 {
+                    println!("[[]]");
+                    return;
+                }
+                let memory = caller
+                    .get_export("memory")
+                    .and_then(|e| e.into_memory())
+                    .expect("missing memory export");
+                let data = memory.data(&caller);
+                print!("[");
+                for r in 0..rows {
+                    if r > 0 {
+                        print!("; ");
+                    }
+                    print!("[");
+                    for c in 0..cols {
+                        let offset = ptr as usize + ((r * cols + c) * 8) as usize;
+                        let val = f64::from_le_bytes(data[offset..offset + 8].try_into().unwrap());
+                        if c > 0 {
+                            print!(", ");
+                        }
+                        print!("{}", val);
+                    }
+                    print!("]");
+                }
+                println!("]");
+            },
+        )
+        .map_err(|e| format!("Failed to register env.print_mat: {}", e))?;

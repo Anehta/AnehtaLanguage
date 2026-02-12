@@ -1,0 +1,22 @@
+// 简单 Vec 测试
+var v1 = [1, 2, 3]
+var v2 = [4, 5, 6]
+
+print(v1)
+print(v2)
+
+// 测试减法
+var sub_result = v1 - v2
+print(sub_result)
+
+// 测试标量乘
+var scale_result = v1 * 2.0
+print(scale_result)
+
+// 测试点积
+var dot_result = v1 @ v2
+print(dot_result)
+
+// 测试叉积
+var cross_result = v1 # v2
+print(cross_result)

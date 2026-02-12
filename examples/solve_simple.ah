@@ -1,0 +1,27 @@
+// 简单测试左除运算符 \ (解线性方程组)
+
+print("测试 mat \\ vec (解 Ax = b)")
+
+// 2x2 系统: 2x + y = 5, x + 3y = 6
+var A = [2.0, 1.0; 1.0, 3.0]
+var b = [5.0, 6.0]
+
+print("矩阵 A:")
+print(A)
+print("向量 b:")
+print(b)
+
+var x = A \ b
+print("解 x = A \\ b:")
+print(x)
+
+print("")
+print("测试 mat \\ mat (多个右端项)")
+
+var B = [5.0, 1.0; 6.0, 2.0]
+print("矩阵 B (多列右端项):")
+print(B)
+
+var X = A \ B
+print("解 X = A \\ B:")
+print(X)

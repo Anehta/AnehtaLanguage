@@ -1,0 +1,37 @@
+var x = 3.14
+print(x)
+
+var y = x + 1.5
+print(y)
+
+var z = 10 / 3.0
+print(z)
+
+var sq = 2.0 ^ 0.5
+print(sq)
+
+var a = 3.14
+var b = 2.71
+if (a > b) {
+    print(1)
+} else {
+    print(0)
+}
+if (a < b) {
+    print(1)
+} else {
+    print(0)
+}
+
+print(int(3.14))
+print(float(42))
+
+var t = { pi: 3.14 }
+print(t.pi)
+
+print("pi = " + 3.14)
+print("sum = " + 42)
+
+for(var i = 0.0; i < 1.0; i = i + 0.25) {
+    print(i)
+}

@@ -1,0 +1,32 @@
+// 测试 Vec 广播（仅测试向量，避免矩阵字面量问题）
+
+print("=== Vec + scalar ===")
+var v = [1.0, 2.0, 3.0]
+print(v)
+var result = v + 10.0
+print(result)
+// 期望: [11.0, 12.0, 13.0]
+
+print("")
+print("=== scalar + Vec ===")
+result = 5.0 + v
+print(result)
+// 期望: [6.0, 7.0, 8.0]
+
+print("")
+print("=== Vec - scalar ===")
+result = v - 1.0
+print(result)
+// 期望: [0.0, 1.0, 2.0]
+
+print("")
+print("=== Vec / scalar ===")
+result = v / 2.0
+print(result)
+// 期望: [0.5, 1.0, 1.5]
+
+print("")
+print("=== Vec * scalar (existing) ===")
+result = v * 3.0
+print(result)
+// 期望: [3.0, 6.0, 9.0]

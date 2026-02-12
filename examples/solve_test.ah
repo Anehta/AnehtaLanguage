@@ -1,0 +1,56 @@
+// 测试左除运算符 \ (解线性方程组)
+
+print("=== 测试 mat \ vec (解 Ax = b) ===")
+
+// 2x2 系统: 4x + 7y = 1, 2x + 6y = 2
+var A = [4, 7; 2, 6]
+var b = [1, 2]
+
+print("矩阵 A:")
+print(A)
+print("向量 b:")
+print(b)
+
+var x = A \ b
+print("解 x = A \\ b:")
+print(x)
+
+// 验证: A * x 应该等于 b
+print("验证 A * x (应该等于 b):")
+var result = A * x
+print(result)
+
+print("")
+print("=== 测试 3x3 系统 ===")
+
+var A2 = [2, -1, 0; -1, 2, -1; 0, -1, 2]
+var b2 = [1, 0, 1]
+
+print("矩阵 A2:")
+print(A2)
+print("向量 b2:")
+print(b2)
+
+var x2 = A2 \ b2
+print("解 x2 = A2 \\ b2:")
+print(x2)
+
+print("验证 A2 * x2:")
+var result2 = A2 * x2
+print(result2)
+
+print("")
+print("=== 测试 mat \ mat (多个右端项) ===")
+
+var B = [1, 0; 2, 1]
+
+print("矩阵 B (多列右端项):")
+print(B)
+
+var X = A \ B
+print("解 X = A \\ B:")
+print(X)
+
+print("验证 A * X:")
+var resultM = A * X
+print(resultM)

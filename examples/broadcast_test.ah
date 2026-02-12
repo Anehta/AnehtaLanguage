@@ -1,0 +1,63 @@
+// 测试广播（Broadcasting）
+
+print("=== Vec + scalar ===")
+var v = [1.0, 2.0, 3.0]
+print("v = ")
+print(v)
+var v_add = v + 10.0
+print("v + 10 = ")
+print(v_add)
+
+print("")
+print("=== scalar + Vec ===")
+var v_add2 = 5.0 + v
+print("5 + v = ")
+print(v_add2)
+
+print("")
+print("=== Vec - scalar ===")
+var v_sub = v - 1.0
+print("v - 1 = ")
+print(v_sub)
+
+print("")
+print("=== Vec / scalar ===")
+var v_div = v / 2.0
+print("v / 2 = ")
+print(v_div)
+
+print("")
+print("=== Mat + scalar ===")
+var m = [[1.0, 2.0]; [3.0, 4.0]]
+print("m = ")
+print(m)
+var m_add = m + 10.0
+print("m + 10 = ")
+print(m_add)
+
+print("")
+print("=== Mat - scalar ===")
+var m_sub = m - 1.0
+print("m - 1 = ")
+print(m_sub)
+
+print("")
+print("=== Mat / scalar ===")
+var m_div = m / 2.0
+print("m / 2 = ")
+print(m_div)
+
+print("")
+print("=== Mat + Vec (broadcast to each row) ===")
+var vec = [10.0, 20.0]
+print("vec = ")
+print(vec)
+var m_vec_add = m + vec
+print("m + vec = ")
+print(m_vec_add)
+
+print("")
+print("=== Mat - Vec (broadcast from each row) ===")
+var m_vec_sub = m - vec
+print("m - vec = ")
+print(m_vec_sub)

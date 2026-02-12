@@ -1,0 +1,42 @@
+// 测试 WASM SIMD vec + vec
+
+print("=== Vec + Vec (SIMD) ===")
+var v1 = [1.0, 2.0, 3.0, 4.0, 5.0]
+var v2 = [10.0, 20.0, 30.0, 40.0, 50.0]
+print("v1 = ")
+print(v1)
+print("v2 = ")
+print(v2)
+
+var result = v1 + v2
+print("v1 + v2 = ")
+print(result)
+// 期望: [11.0, 22.0, 33.0, 44.0, 55.0]
+
+print("")
+print("=== Vec + Vec (odd length, tail element) ===")
+var v3 = [1.0, 2.0, 3.0]
+var v4 = [4.0, 5.0, 6.0]
+print("v3 = ")
+print(v3)
+print("v4 = ")
+print(v4)
+
+var result2 = v3 + v4
+print("v3 + v4 = ")
+print(result2)
+// 期望: [5.0, 7.0, 9.0]
+
+print("")
+print("=== Large Vec (SIMD efficiency test) ===")
+var large1 = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0]
+var large2 = [10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0]
+print("large1 = ")
+print(large1)
+print("large2 = ")
+print(large2)
+
+var large_result = large1 + large2
+print("large1 + large2 = ")
+print(large_result)
+// 期望: [11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0, 11.0]

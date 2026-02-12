@@ -1,0 +1,38 @@
+// 测试解构赋值 (Destructuring)
+
+print("=== Vector destructuring ===")
+var v = [10.0, 20.0, 30.0]
+print("v = ")
+print(v)
+
+var x, y, z = v
+print("x, y, z = v")
+print("x = ")
+print(x)
+print("y = ")
+print(y)
+print("z = ")
+print(z)
+
+print("")
+print("=== Multi-value assignment ===")
+var a, b, c = 1.0, 2.0, 3.0
+print("a, b, c = 1, 2, 3")
+print("a = ")
+print(a)
+print("b = ")
+print(b)
+print("c = ")
+print(c)
+
+print("")
+print("=== Swap values ===")
+var m = 100.0
+var n = 200.0
+print("m = 100, n = 200")
+m, n = n, m
+print("After m, n = n, m:")
+print("m = ")
+print(m)
+print("n = ")
+print(n)

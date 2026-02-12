@@ -5,6 +5,7 @@
   "patterns": [
     { "include": "#comment" },
     { "include": "#string" },
+    { "include": "#vec-mat-literal" },
     { "include": "#closure-expression" },
     { "include": "#function-definition" },
     { "include": "#variable-declaration" },
@@ -15,6 +16,7 @@
     { "include": "#type-annotation-colon" },
     { "include": "#return-type-arrow" },
     { "include": "#number" },
+    { "include": "#swizzle-access" },
     { "include": "#field-access" },
     { "include": "#function-call" },
     { "include": "#random-operator" },
@@ -33,6 +35,43 @@
           }
         }
       ]
+    },
+
+    "vec-mat-literal": {
+      "patterns": [
+        {
+          "begin": "\\[",
+          "beginCaptures": {
+            "0": { "name": "punctuation.definition.vector.begin.anehta" }
+          },
+          "end": "\\]",
+          "endCaptures": {
+            "0": { "name": "punctuation.definition.vector.end.anehta" }
+          },
+          "patterns": [
+            { "include": "#comment" },
+            { "include": "#string" },
+            { "include": "#number" },
+            { "include": "#function-call" },
+            { "include": "#operators" },
+            {
+              "match": ";",
+              "name": "punctuation.separator.matrix.row.anehta"
+            },
+            {
+              "match": ",",
+              "name": "punctuation.separator.comma.anehta"
+            }
+          ]
+        }
+      ]
+    },
+
+    "swizzle-access": {
+      "match": "\\.([xyzwrgba]{1,4})\\b",
+      "captures": {
+        "1": { "name": "variable.other.property.swizzle.anehta" }
+      }
     },
 
     "string": {
@@ -66,7 +105,7 @@
     },
 
     "closure-parameter": {
-      "match": "\\b([a-zA-Z_]\\w*)\\s*(?:(:)\\s*(int|string|str|number|bool)\\b)?",
+      "match": "\\b([a-zA-Z_]\\w*)\\s*(?:(:)\\s*(int|float|f64|string|str|vec|mat|number|bool)\\b)?",
       "captures": {
         "1": { "name": "variable.parameter.closure.anehta" },
         "2": { "name": "punctuation.separator.colon.anehta" },
@@ -92,7 +131,7 @@
     },
 
     "function-parameter": {
-      "match": "\\b([a-zA-Z_]\\w*)\\s*(:)\\s*(int|string|str|number|bool)\\b",
+      "match": "\\b([a-zA-Z_]\\w*)\\s*(:)\\s*(int|float|f64|string|str|vec|mat|number|bool)\\b",
       "captures": {
         "1": { "name": "variable.parameter.anehta" },
         "2": { "name": "punctuation.separator.colon.anehta" },
@@ -103,7 +142,7 @@
     "variable-declaration": {
       "patterns": [
         {
-          "match": "\\b(var)\\s+([a-zA-Z_]\\w*)\\s*(:)\\s*(int|string|str|number|bool)\\b",
+          "match": "\\b(var)\\s+([a-zA-Z_]\\w*)\\s*(:)\\s*(int|float|f64|string|str|vec|mat|number|bool)\\b",
           "captures": {
             "1": { "name": "keyword.declaration.var.anehta" },
             "2": { "name": "variable.other.anehta" },
@@ -137,12 +176,12 @@
     },
 
     "builtin-functions": {
-      "match": "\\b(print|input)(?=\\s*\\()",
+      "match": "\\b(print|input|int|float|len)(?=\\s*\\()",
       "name": "support.function.builtin.anehta"
     },
 
     "type-annotation-colon": {
-      "match": "(:)\\s*(int|string|str|number|bool)\\b",
+      "match": "(:)\\s*(int|float|f64|string|str|vec|mat|number|bool)\\b",
       "captures": {
         "1": { "name": "punctuation.separator.colon.anehta" },
         "2": { "name": "storage.type.anehta" }
@@ -150,7 +189,7 @@
     },
 
     "return-type-arrow": {
-      "match": "(->)\\s*(int|string|str|number|bool)\\b",
+      "match": "(->)\\s*(int|float|f64|string|str|vec|mat|number|bool)\\b",
       "captures": {
         "1": { "name": "punctuation.arrow.return-type.anehta" },
         "2": { "name": "storage.type.anehta" }
@@ -201,6 +240,14 @@
         {
           "match": "=>",
           "name": "keyword.operator.fat-arrow.anehta"
+        },
+        {
+          "match": "@",
+          "name": "keyword.operator.vector.dot.anehta"
+        },
+        {
+          "match": "#",
+          "name": "keyword.operator.vector.cross.anehta"
         },
         {
           "match": "\\+\\+|--",

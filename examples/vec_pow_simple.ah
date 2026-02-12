@@ -1,0 +1,7 @@
+// 简单测试 vec .^ scalar
+
+var v = [2.0, 3.0, 4.0]
+print(v)
+
+var v2 = v .^ 2.0
+print(v2)

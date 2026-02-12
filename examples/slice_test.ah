@@ -1,0 +1,32 @@
+// 测试切片功能 (Range slice)
+
+print("=== Vec slicing ===")
+var v = [10.0, 20.0, 30.0, 40.0, 50.0]
+print("v = ")
+print(v)
+
+var s1 = v[1 .. 3]
+print("v[1..3] = ")
+print(s1)
+
+var s2 = v[2 .. ]
+print("v[2..] = ")
+print(s2)
+
+var s3 = v[.. 3]
+print("v[..3] = ")
+print(s3)
+
+print("")
+print("=== Mat slicing ===")
+var m = [1.0, 2.0, 3.0; 4.0, 5.0, 6.0; 7.0, 8.0, 9.0]
+print("m = ")
+print(m)
+
+var r1 = m[0 .. 2]
+print("m[0..2] (first 2 rows) = ")
+print(r1)
+
+var r2 = m[1 .. ]
+print("m[1..] (from row 1) = ")
+print(r2)

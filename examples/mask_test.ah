@@ -1,0 +1,48 @@
+// 测试布尔掩码（Boolean Masking）
+
+print("=== Vector masking: v[v > 2] ===")
+var v = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0]
+print("v = ")
+print(v)
+print("v[v > 2] = ")
+var greater = v[v > 2.0]
+print(greater)
+// 期望: [3.0, 4.0, 5.0]
+
+print("")
+print("=== Vector masking with variable threshold ===")
+var threshold = 3.0
+print("threshold = ")
+print(threshold)
+print("v[v >= threshold] = ")
+var ge_threshold = v[v >= threshold]
+print(ge_threshold)
+// 期望: [3.0, 4.0, 5.0]
+
+print("")
+print("=== Vector masking: v[v < 2] ===")
+print("v[v < 2] = ")
+var less = v[v < 2.0]
+print(less)
+// 期望: [0.0, 1.0]
+
+print("")
+print("=== Vector masking: v[v != 2] ===")
+print("v[v != 2] = ")
+var not_eq = v[v != 2.0]
+print(not_eq)
+// 期望: [0.0, 1.0, 3.0, 4.0, 5.0]
+
+print("")
+print("=== Vector masking: v[v == 2] ===")
+print("v[v == 2] = ")
+var equals_two = v[v == 2.0]
+print(equals_two)
+// 期望: [2.0]
+
+print("")
+print("=== Vector masking: v[v <= 1] ===")
+print("v[v <= 1] = ")
+var le_one = v[v <= 1.0]
+print(le_one)
+// 期望: [0.0, 1.0]

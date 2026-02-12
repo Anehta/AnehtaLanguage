@@ -1,0 +1,5 @@
+// 最小 SIMD 测试
+var v1 = [1.0, 2.0]
+var v2 = [3.0, 4.0]
+var result = v1 + v2
+print(result)
